@@ -1,0 +1,3 @@
+[submodule "h5-game-util"]
+	path = h5-game-util
+	url = git@github.com:AwesomeYotta/h5-game-util.git

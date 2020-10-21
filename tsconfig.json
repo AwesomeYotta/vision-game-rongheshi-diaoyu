@@ -1,0 +1,46 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "module": "esnext",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["../h5-game-util/*"],
+      "#/*": ["./assets/*"],
+      "http/*": ["./http/*"],
+      "game/*": ["./game/*"],
+      "common/*": ["./common/*"]
+    },
+    "typeRoots": [
+        "./node_modules/@types"
+    ],
+    "lib": [
+      "es5",
+      "dom",
+      "es2015.promise",
+      "es2015.core",
+      "es2015.collection",
+      "es2016.array.include",
+      "es2015.iterable"
+    ],
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "strictNullChecks": false,
+    "downlevelIteration": true,
+    "allowSyntheticDefaultImports":true
+  },
+  "exclude": [
+      "./node_modules/"
+  ]
+}

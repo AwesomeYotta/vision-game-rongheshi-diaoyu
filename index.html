@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vision-Game</title>
+    <script src="<%=process.env.NODE_ENV === 'production' ? htmlWebpackPlugin.options.createjsPathProd : htmlWebpackPlugin.options.createjsPathTest%>"></script>
+    <style>
+        #playback-canvas-container {
+            position: absolute;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            left:0;
+            right:0;
+            top:0;
+            margin:auto;
+            background-color: black;
+            /* display: none; */
+        }
+        canvas#gameView {
+            position: absolute;
+            left:0;
+            right:0;
+            bottom: 0;
+            top:0;
+            margin:auto;
+        }
+
+        body {
+            background-color: white;
+        }
+
+        #playback-section {
+            display: none;
+        }
+
+        #playback-panel {
+            position: absolute;
+            z-index: 1;
+            top:10px;
+            left: 0;
+            right:0;
+            margin: auto;
+        }
+        #playback-panel-container{
+            background: black;
+            height:60px;
+            width: 100vw;
+            position: absolute;
+            top:calc(100vh - 60px)
+        }
+        #back-btn {
+            position: fixed;
+            left:20px;
+            top:20px;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .black-mask {
+            width: 100vw;
+            height: 100vh;
+            background-color:rgba(0,0,0,0.5);
+            z-index: 10;
+            position: absolute;
+            display: none;
+        }
+
+        #replay-btn {
+            cursor: pointer;
+        }
+
+        .center-middle {
+            left:0;
+            right:0;
+            top:0;
+            bottom: 0;
+            margin:auto;
+            position: absolute;
+        }
+        @keyframes rotation {
+            from{
+               transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        #loading-icon {
+            animation: rotation 3s infinite linear;
+        }
+
+        #loading-text {
+            color:white; 
+            width:fit-content; 
+            height: fit-content; 
+            padding-top: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='playback-section'>
+        <img id="back-btn" src="${require('./h5-game-util/components/svg/back_btn.svg')}" alt="">
+        <div id='playback-canvas-container'>
+        </div>
+        <div id='playback-panel-container'>
+            <canvas id='playback-panel' width='980' height='40'></canvas>
+        </div>
+        <div id='replay-mask' class ='black-mask'>
+            <img id='replay-btn' class='center-middle' src="${require('./src/assets/img/replay.svg')}" alt="">
+        </div>
+        <div id='loading-mask' class ='black-mask'>
+            <img id='loading-icon' class='center-middle' src="${require('./src/assets/img/replay.svg')}">
+            <span class="center-middle" id="loading-text">拼命加载中</span>
+        </div>
+    </div>
+    <div id='userplay-section'></div>
+</body>
+</html>
