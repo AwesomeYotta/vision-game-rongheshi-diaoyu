@@ -78,7 +78,7 @@ class GameGlobal {
                 createjs.Touch.enable(this.stage);
                 this.stage.enableMouseOver(5);
                 canvasContainer = document.querySelector('#userplay-section') as HTMLDivElement;
-                // canvasContainer.style.setProperty('cursor', 'none');
+                canvasContainer.style.setProperty('cursor', 'none');
                 this.gameStart();
             }
             canvasContainer.appendChild(this.stageCanvas);
@@ -143,7 +143,7 @@ class GameGlobal {
 
     private async initAsync() {
         let token = await getToken();
-        setAxiosCommon('x-auth-token', '83ae3e6e-f4e2-4a17-ba94-f5e2e0756988');
+        setAxiosCommon('x-auth-token', token);
         //资源初始化
         await loadResAsync();
         //UI管理器初始化
