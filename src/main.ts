@@ -21,7 +21,7 @@ import { addPopups } from 'game/Popups';
 import { pushResult, LevelState } from './GameUtil';
 import quitConfirmBackBtn from "@/components/quitConfirmBackBtn";
 import $http from './http/HttpRequest';
-import { closeQuitWaitDialog } from 'game/Popups/quitWaitDialog ';
+import { closeQuitWaitDialog } from 'game/Popups/quitWaitDialog';
 export enum GameState {
     pause = 'pause',
     running = 'running',

@@ -21,7 +21,7 @@ const config = {
     entry: ['babel-polyfill', './src/main.ts'],
 
     output: {
-        filename: 'app.[hash].js',
+        filename: 'app.[contenthash:7].js',
         path: path.join(__dirname, './dist')
     },
 
@@ -106,12 +106,12 @@ const config = {
         }),
         new CleanWebpackPlugin(['dist'], { root: path.resolve(__dirname, './') }),
         new MiniCssExtractPlugin({
-            filename: './css/style.[contenthash].css'
+            filename: './css/style.[contenthash:7].css'
         }),
         new OptimizeCSSAssetsPlugin({}),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: !isProduction ? '"development"' : '"production"'
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
             }
         }),
         new TinypngPlugin({
