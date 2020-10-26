@@ -1,4 +1,4 @@
-import TipDialog from '@/html-components/TipDialog';
+import FuseTipDialog from '@/html-components/FuseTipDialog';
 import GameAudio from '../../common/GameAudio';
 import { GameConfig } from '../../common/GameConfig';
 import { EventCenter } from '@/util/EventCenter';
@@ -7,13 +7,32 @@ import UserData from '../../common/UserData';
 import { gameGlobal } from '../../main';
 import isPad from '@/util/isPad';
 
-let tipDialog: TipDialog;
+let tipDialog: FuseTipDialog;
 export function addTipDialog() {
-    tipDialog = new TipDialog({
+    tipDialog = new FuseTipDialog({
         soundOn: false,
         themeColor: '#CC00CC',
         level: UserData.i.level,
         levelTitle: '等级',
+        radios : [
+            {
+                values: [
+                    {
+                        label: '分开',
+                        value: 'on'
+                    }, {
+                        label: '辐辏',
+                        value: 'off'
+                    }
+                ],
+                cb: () => {
+                },
+    
+                checked: 'on',
+                ballColor: 'rgb(0, 193, 222)',
+                ballUncheckColor: 'rgb(189, 189, 189)'
+            }
+        ],
         confirm: () => {
             tipDialog.dismiss();
             gameGlobal.continue();
@@ -40,7 +59,33 @@ export function addTipDialog() {
 
 
     tipDialog.beforeShow = () => {
+        _refreshFusionTrainingType();
         gameGlobal.pause();
+    }
+
+    function _refreshFusionTrainingType () {
+        let separate = GameConfig.i.fusionTrainingType == 'CONVERGE' ? "off" : 'on';
+        let converge = GameConfig.i.fusionTrainingType == 'SEPARATE' ? "off" : 'on';
+        let radios = [{
+            values: [
+                {
+                    label: '分开',
+                    value: separate
+                }, {
+                    label: '辐辏',
+                    value: converge
+                }
+            ],
+
+            cb: () => {
+            },
+
+            checked: 'on',
+            ballColor: 'rgb(2, 170, 196)',
+            ballUncheckColor: 'rgb(189, 189, 189)',
+        }];
+
+        tipDialog.radios = radios;
     }
 }
 
