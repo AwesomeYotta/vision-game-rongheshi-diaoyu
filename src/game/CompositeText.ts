@@ -1,15 +1,31 @@
+import { GameConfig } from "common/GameConfig";
+
 export default class CompositeText extends createjs.Container {
     private redText: createjs.Text;
     private blueText: createjs.Text;
-    private depth: number;
-    private sign: number = -1;
     constructor(config:any) {
         super();
-        this.depth = config.depth;
-        this.redText = new createjs.Text(config.number+'', '40px Arial', '#FF0000');
-        this.blueText = new createjs.Text(config.number+'', '40px Arial', '#0040FF');
+        let offset = GameConfig.i.offset;
+        let speed = GameConfig.i.moveSpeed;
+        let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? -1 : 1;
+        this.redText = new createjs.Text(config.number+'', `${config.fontSize}px Arial`, '#FF0000');
+        this.blueText = new createjs.Text(config.number+'', `${config.fontSize}px Arial`, '#0040FF');
         this.blueText.compositeOperation = 'darken';
         this.addChild(this.redText, this.blueText);
+
+        this.moveTween({
+            target: this.redText,
+            startX: 0,
+            endX: -offset * sign / 2,
+            delay: speed * offset / 2
+        })
+
+        this.moveTween({
+            target: this.blueText,
+            startX: 0,
+            endX: offset * sign / 2,
+            delay: speed * offset / 2
+        })
     }
 
     public updateNumber(number:string) {
@@ -17,10 +33,12 @@ export default class CompositeText extends createjs.Container {
         this.blueText.text = number;
     }
 
-    public move() {
-        if(this.blueText.x === 0 || this.blueText.x - this.redText.x === this.depth) {
-            this.sign *= -1;
-        }
-        this.blueText.x += this.sign;
+    private moveTween(config:any) {
+        createjs.Tween.get(config.target, {override: true})
+            .to({x: config.endX}, config.delay)
+            .to({x: config.startX}, config.delay)
+            .call(() => {
+                this.moveTween(config);
+            })
     }
 }

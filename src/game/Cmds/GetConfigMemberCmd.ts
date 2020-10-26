@@ -16,6 +16,7 @@ export class GetConfigMemberCmd extends Command {
     public gameDuration: number;
     public medalInfo: MedalInfo;
     private trainingEyeType:string;
+    private fusionTrainingType:string;
     constructor() {
         super();
     }
@@ -24,7 +25,7 @@ export class GetConfigMemberCmd extends Command {
         if (GameConfig.i.playMode == PlayMode.userPlay) {
             this.gameDesc = await $http.getGameInfoById(GameConfig.i.gameId) as any;
             this.randomSeed = randomRangeInt(0, 12345);
-            let { level, modeList, gameDuration, hasGotMedal, medalUrl, trainingCount, trainingEyeType } = await $http.getBeginLevel(GameConfig.i.gameId) as any;
+            let { level, modeList, gameDuration, hasGotMedal, medalUrl, trainingCount, trainingEyeType, fusionTrainingType } = await $http.getBeginLevel(GameConfig.i.gameId) as any;
             this.beginLevel = level;
             this.modeList = modeList;
             this.gameDuration = gameDuration;
@@ -34,6 +35,7 @@ export class GetConfigMemberCmd extends Command {
                 trainingDays: trainingCount
             }
             this.trainingEyeType = trainingEyeType;
+            this.fusionTrainingType = fusionTrainingType;
         }
         let result = {
             gameDesc: this.gameDesc,
@@ -42,7 +44,8 @@ export class GetConfigMemberCmd extends Command {
             modeList: this.modeList,
             gameDuration: this.gameDuration,
             medalInfo: this.medalInfo,
-            trainingEyeType: this.trainingEyeType
+            trainingEyeType: this.trainingEyeType,
+            fusionTrainingType: this.fusionTrainingType
         }
         return result;
     }

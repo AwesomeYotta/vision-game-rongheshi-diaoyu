@@ -28,12 +28,9 @@ export default class GameScene extends ViewBase {
     private currentNumber: CompositeText;
     private fishNumber: number;
     private fishScale: number;
-    private offset: number;
-    private moveSpeed: number;
     private fishData: Array<any>;
     private numberList: Array<number>;
     private numberIndex: number;
-    private deltaCount: number = 0;
     private ripple: Ripple;
     constructor() {
         super();
@@ -48,8 +45,7 @@ export default class GameScene extends ViewBase {
         UserData.i.chance = GameConfig.i.chance;
         this.fishNumber = GameConfig.i.fishNumber;
         this.fishScale = GameConfig.i.fishScale;
-        this.offset = GameConfig.i.offset;
-        this.moveSpeed = GameConfig.i.moveSpeed;
+        
         let fish = new createjs.Bitmap(res.getResult(ResId.fishRedPng));
         let fishWidth = fish.image.width * this.fishScale;
         let fishHeight = fish.image.height * this.fishScale;
@@ -68,7 +64,7 @@ export default class GameScene extends ViewBase {
         this.getRandomNumber();
         this.addFishs();
         this.addNumber();
-        EventCenter.i.addListener('tick', this.update, this);
+        
         EventCenter.i.addListener(StageEvent.stagemousemove, this.addMouseCommand, this);
         if(GameConfig.i.playMode === PlayMode.playback) {
             this.ripple = new Ripple();
@@ -80,8 +76,7 @@ export default class GameScene extends ViewBase {
         this.crosshair = new CompositeImage({
             redImage: res.getResult(ResId.crossRedPng),
             blueImage: res.getResult(ResId.crossBluePng),
-            scale: this.fishScale,
-            depth: this.offset
+            scale: this.fishScale
         });
         this.crosshair.regX = CROSSHAIR_SIZE / 2;
         this.crosshair.regY = CROSSHAIR_SIZE / 2;
@@ -107,7 +102,7 @@ export default class GameScene extends ViewBase {
     private addNumber() {
         this.currentNumber = new CompositeText({
             number: this.numberList[this.numberIndex],
-            depth: this.offset
+            fontSize: 36
         })
         this.currentNumber.set({x: this.containerWidth / 2, y: this.containerHeight - 60});
         this.addChild(this.currentNumber);
@@ -120,7 +115,6 @@ export default class GameScene extends ViewBase {
                 redImage: res.getResult(ResId.fishRedPng),
                 blueImage: res.getResult(ResId.fishBluePng),
                 scale: this.fishScale,
-                depth: this.offset,
                 number: this.numberList[i]
             });
             fish.name = this.numberList[i]+'';
@@ -138,19 +132,6 @@ export default class GameScene extends ViewBase {
         }
     }
 
-    // 
-    private update(ev:any) {
-        this.deltaCount += ev.delta;
-        if(this.deltaCount >= this.moveSpeed)  {
-            this.fishList.forEach(fish => {
-                fish.move();
-            })
-            this.crosshair.move();
-            this.currentNumber.move();
-            this.deltaCount = 0;
-        }
-    }
-    
     private addMouseCommand(ev: createjs.MouseEvent) {
         let pt = UIManager.i.getCurrentScene().globalToLocal(ev.stageX, ev.stageY);
         CommandManager.i.pushCommandInfo({
@@ -199,10 +180,10 @@ export default class GameScene extends ViewBase {
 
     public leave() {
         IDUtil.i.delete(this.gameObjectID);
-        EventCenter.i.removeListener('tick', this.update, this);
         EventCenter.i.removeListener(StageEvent.stagemousemove, this.addMouseCommand, this);
         EventCenter.i.filter();
         this.removeAllChildren();
         this.removeAllEventListeners();
+        createjs.Tween.removeAllTweens();
     }
 }
