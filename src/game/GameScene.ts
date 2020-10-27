@@ -102,7 +102,7 @@ export default class GameScene extends ViewBase {
     private addNumber() {
         this.currentNumber = new CompositeText({
             number: this.numberList[this.numberIndex],
-            fontSize: 36
+            scale: this.fishScale
         })
         this.currentNumber.set({x: this.containerWidth / 2, y: this.containerHeight - 60});
         this.addChild(this.currentNumber);
