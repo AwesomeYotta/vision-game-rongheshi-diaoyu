@@ -17,6 +17,8 @@ export default class CompositeImage extends createjs.Container {
         this.redImg.x = 0;
         this.blueImg.x = 0;
         this.blueImg.compositeOperation = 'darken';
+        this.blueImg.scaleX = this.blueImg.scaleY = config.scale;
+        this.redImg.scaleX = this.redImg.scaleY = config.scale;
         this.addChild(this.redImg, this.blueImg);
         this.moveTween({
             target: this.blueImg,
@@ -31,8 +33,8 @@ export default class CompositeImage extends createjs.Container {
             delay: speed * offset / 2
         });
         if(config.number) {
-            this.numberTextX = this.redImg.image.width / 2 + 20;
-            this.numberTextY = this.redImg.image.height / 2 + 10;
+            this.numberTextX = this.redImg.image.width * config.scale / 2 + 10;
+            this.numberTextY = this.redImg.image.height * config.scale / 2 + 5;
             this.redText = new createjs.Text(config.number+'', '60px Arial', '#FF0000');
             this.redText.textAlign = 'center';
             this.redText.textBaseline = 'middle';
@@ -45,6 +47,9 @@ export default class CompositeImage extends createjs.Container {
             this.blueText.x = this.numberTextX;
             this.blueText.y = this.numberTextY;
             this.blueText.compositeOperation = 'darken';
+            
+            this.blueText.scaleX = this.blueText.scaleY = config.scale;
+            this.redText.scaleX = this.redText.scaleY = config.scale;
             this.addChild(this.redText, this.blueText);
             this.moveTween({
                 target: this.redText,
@@ -59,9 +64,8 @@ export default class CompositeImage extends createjs.Container {
                 delay: speed * offset / 2
             });
         }
-        this.scaleX = this.scaleY = config.scale;
         let hitArea = new createjs.Shape();
-        hitArea.graphics.f('#fff').dr(0, 0, this.redImg.image.width, this.redImg.image.height).ef();
+        hitArea.graphics.f('#fff').dr(0, 0, this.redImg.image.width * config.scale, this.redImg.image.height * config.scale).ef();
         this.hitArea = hitArea;
         // this.addChild(hitArea);
     }

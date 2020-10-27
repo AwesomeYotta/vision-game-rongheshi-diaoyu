@@ -8,8 +8,8 @@ export default class CompositeText extends createjs.Container {
         let offset = GameConfig.i.offset;
         let speed = GameConfig.i.moveSpeed;
         let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? -1 : 1;
-        this.redText = new createjs.Text(config.number+'', `${config.fontSize}px Arial`, '#FF0000');
-        this.blueText = new createjs.Text(config.number+'', `${config.fontSize}px Arial`, '#0040FF');
+        this.redText = new createjs.Text(config.number+'', `${60 * config.scale}px Arial`, '#FF0000');
+        this.blueText = new createjs.Text(config.number+'', `${60 * config.scale}px Arial`, '#0040FF');
         this.blueText.compositeOperation = 'darken';
         this.addChild(this.redText, this.blueText);
 
