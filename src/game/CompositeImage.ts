@@ -10,7 +10,7 @@ export default class CompositeImage extends createjs.Container {
     constructor(config:any) {
         super();
         let offset = GameConfig.i.offset;
-        let speed = GameConfig.i.moveSpeed;
+        let delay = Math.floor(offset / GameConfig.i.moveSpeed * 1000 / 2);
         let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? -1 : 1;
         this.redImg = new createjs.Bitmap(config.redImage);
         this.blueImg = new createjs.Bitmap(config.blueImage);
@@ -24,13 +24,13 @@ export default class CompositeImage extends createjs.Container {
             target: this.blueImg,
             startX: 0,
             endX: offset / 2 * sign,
-            delay: speed * offset / 2
+            delay: delay
         });
         this.moveTween({
             target: this.redImg,
             startX: 0,
             endX: -offset / 2 * sign,
-            delay: speed * offset / 2
+            delay: delay
         });
         if(config.number) {
             this.numberTextX = this.redImg.image.width * config.scale / 2 + 10;
@@ -55,13 +55,13 @@ export default class CompositeImage extends createjs.Container {
                 target: this.redText,
                 startX: this.numberTextX,
                 endX: -offset / 2 * sign + this.numberTextX,
-                delay: speed * offset / 2
+                delay: delay
             });
             this.moveTween({
                 target: this.blueText,
                 startX: this.numberTextX,
                 endX: offset / 2 * sign + this.numberTextX,
-                delay: speed * offset / 2
+                delay: delay
             });
         }
         let hitArea = new createjs.Shape();

@@ -39,9 +39,8 @@ export default class GameScene extends ViewBase {
     
     public enter() {
         let canvas = <HTMLCanvasElement>this.stage.canvas;
-        this.containerWidth = canvas.width;
-        this.containerHeight = canvas.height;
-
+        this.containerWidth = this.containerHeight = canvas.height;
+        this.x = (canvas.width - canvas.height) / 2;
         UserData.i.chance = GameConfig.i.chance;
         this.fishNumber = GameConfig.i.fishNumber;
         this.fishScale = GameConfig.i.fishScale;
