@@ -143,7 +143,7 @@ if (isProduction) {
 
         }
     });
-    } else {
+} else {
     module.exports = merge(config, {
         devtool: 'source-map',
         devServer: {
