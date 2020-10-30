@@ -123,25 +123,27 @@ const config = {
     ]
 };
 
-if (isProduction) {const TerserPlugin = require('terser-webpack-plugin');
-module.exports = merge(config, {
-    optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                test: /\.js(\?.*)?$/i,
-                terserOptions: {
-                    // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-                     extractComments: 'all',
-                     compress: {
-                         drop_console: true,
-                     },
-              }
-            }),
-        ],
-        
-    }
-});} else {
+if (isProduction) {
+    const TerserPlugin = require('terser-webpack-plugin');
+    module.exports = merge(config, {
+        optimization: {
+            minimize: true,
+            minimizer: [
+                new TerserPlugin({
+                    test: /\.js(\?.*)?$/i,
+                    terserOptions: {
+                        // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+                        extractComments: 'all',
+                        compress: {
+                            drop_console: true,
+                        },
+                    }
+                }),
+            ],
+
+        }
+    });
+    } else {
     module.exports = merge(config, {
         devtool: 'source-map',
         devServer: {
