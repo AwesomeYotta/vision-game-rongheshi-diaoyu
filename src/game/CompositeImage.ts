@@ -16,6 +16,7 @@ export default class CompositeImage extends createjs.Container {
         this.blueImg = new createjs.Bitmap(config.blueImage);
         this.redImg.x = 0;
         this.blueImg.x = 0;
+        this.redImg.compositeOperation = 'darken';
         this.blueImg.compositeOperation = 'darken';
         this.blueImg.scaleX = this.blueImg.scaleY = config.scale;
         this.redImg.scaleX = this.redImg.scaleY = config.scale;
@@ -46,6 +47,7 @@ export default class CompositeImage extends createjs.Container {
             this.blueText.textBaseline = 'middle';
             this.blueText.x = this.numberTextX;
             this.blueText.y = this.numberTextY;
+            this.redText.compositeOperation = 'darken';
             this.blueText.compositeOperation = 'darken';
             
             this.blueText.scaleX = this.blueText.scaleY = config.scale;

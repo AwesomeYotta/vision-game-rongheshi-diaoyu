@@ -175,6 +175,8 @@ export default class GameScene extends ViewBase {
     }
 
     public responsive() {
+        let canvas = <HTMLCanvasElement>this.stage.canvas;
+        this.x = (canvas.width - canvas.height) / 2;
     }
 
     public leave() {
