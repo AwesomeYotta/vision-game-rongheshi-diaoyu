@@ -28,9 +28,10 @@ export function addResultDialog() {
     //游戏结束
     EventCenter.i.once(GameEvent.gameEnd, () => {
         gameGlobal.setGameEnd();
+        gameGlobal.timeEndToSaveCommand(GameExitType.normal);
         resultDialog.finished = true;
         resultDialog.close = () => {
-            gameGlobal.beforeQuit(GameExitType.normal);
+            gameGlobal.timeEndToQuit();
         }
         resultDialog.show();
     }, null);

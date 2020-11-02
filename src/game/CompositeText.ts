@@ -10,6 +10,7 @@ export default class CompositeText extends createjs.Container {
         let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? -1 : 1;
         this.redText = new createjs.Text(config.number+'', `${60 * config.scale}px Arial`, '#FF0000');
         this.blueText = new createjs.Text(config.number+'', `${60 * config.scale}px Arial`, '#0040FF');
+        this.redText.compositeOperation = 'darken';
         this.blueText.compositeOperation = 'darken';
         this.addChild(this.redText, this.blueText);
 

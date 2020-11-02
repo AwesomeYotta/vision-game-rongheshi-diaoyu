@@ -22,6 +22,7 @@ import { pushResult, LevelState } from './GameUtil';
 import quitConfirmBackBtn from "@/components/quitConfirmBackBtn";
 import $http from './http/HttpRequest';
 import { closeQuitWaitDialog } from 'game/Popups/quitWaitDialog';
+import { batchInitGame, batchQuitGame } from '@/util/batchExecutionFunctions';
 export enum GameState {
     pause = 'pause',
     running = 'running',
@@ -49,6 +50,10 @@ class GameGlobal {
     private lag: number = 0;
     // 游戏退出类型
     public gameExitType:GameExitType;
+    // 回放是否上传完成
+    private isCommandUploadFinish: boolean = false;
+    // 退出面板是否显示
+    private isQuitWaitDialogShow: boolean = false;
     constructor() {
         // 初始化舞台
         this.stageCanvas = document.createElement('canvas');
@@ -142,6 +147,8 @@ class GameGlobal {
     }
 
     private async initAsync() {
+        // 批量执行初始化
+        batchInitGame();
         let token = await getToken();
         setAxiosCommon('x-auth-token', token);
         //资源初始化
@@ -244,7 +251,30 @@ class GameGlobal {
         closeQuitWaitDialog();
     }
     
+    public timeEndToSaveCommand (exitType:GameExitType) {
+        this.gameExitType = exitType;
+        pushResult(LevelState.incomplete);
+        this.setGameEnd();
+        GameConfig.i.trainingId && this.sendGameExitType();
+        CommandManager.i.save(true).then(() => {
+            this.isCommandUploadFinish = true;
+            if(this.isQuitWaitDialogShow) {
+                closeQuitWaitDialog();
+            }
+        });
+    }
+
+    public timeEndToQuit () {
+        EventCenter.i.emit(GameEvent.showQuitWaitDialog);
+        if(this.isCommandUploadFinish) {
+            closeQuitWaitDialog();
+        } else {
+            this.isQuitWaitDialogShow = true;
+        }
+    }
+
     public quit () {
+        batchQuitGame();
         createjs.Tween.removeAllTweens();
         EventCenter.i.removeAllListeners();
         UIManager.i.popScene();
