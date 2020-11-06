@@ -7,7 +7,7 @@ export default class CompositeText extends createjs.Container {
     constructor(config:any) {
         super();
         let offset = GameConfig.i.offset * getDPICoeff();
-        let delay = Math.floor(offset / GameConfig.i.moveSpeed * 1000 / 2);
+        let delay = GameConfig.i.moveDelay * 1000 / 2;
         let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? -1 : 1;
         this.redText = new createjs.Text(config.number+'', `${60 * config.scale}px Arial`, '#FF0000');
         this.blueText = new createjs.Text(config.number+'', `${60 * config.scale}px Arial`, '#0040FF');
