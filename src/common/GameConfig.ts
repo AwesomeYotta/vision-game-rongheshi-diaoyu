@@ -109,8 +109,8 @@ export class GameConfig extends Singleton {
         return this.configTable.fishScale.value;
     }
 
-    public get moveSpeed(): number {
-        return this.configTable.moveSpeed.value;
+    public get moveDelay(): number {
+        return this.configTable.moveDelay.value;
     }
 
     public get offset(): number {
