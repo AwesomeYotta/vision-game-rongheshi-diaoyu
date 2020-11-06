@@ -1,11 +1,12 @@
 import { GameConfig } from "common/GameConfig";
+import { getDPICoeff } from "@/util/getDPICoeff";
 
 export default class CompositeText extends createjs.Container {
     private redText: createjs.Text;
     private blueText: createjs.Text;
     constructor(config:any) {
         super();
-        let offset = GameConfig.i.offset;
+        let offset = GameConfig.i.offset * getDPICoeff();
         let delay = Math.floor(offset / GameConfig.i.moveSpeed * 1000 / 2);
         let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? -1 : 1;
         this.redText = new createjs.Text(config.number+'', `${60 * config.scale}px Arial`, '#FF0000');
