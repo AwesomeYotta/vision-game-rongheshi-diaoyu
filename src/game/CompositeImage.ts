@@ -1,4 +1,5 @@
 import { GameConfig } from "common/GameConfig";
+import { getDPICoeff } from "@/util/getDPICoeff";
 
 export default class CompositeImage extends createjs.Container {
     private redImg: createjs.Bitmap;
@@ -9,7 +10,7 @@ export default class CompositeImage extends createjs.Container {
     private numberTextY: number;
     constructor(config:any) {
         super();
-        let offset = GameConfig.i.offset;
+        let offset = GameConfig.i.offset * getDPICoeff();
         let delay = Math.floor(offset / GameConfig.i.moveSpeed * 1000 / 2);
         let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? -1 : 1;
         this.redImg = new createjs.Bitmap(config.redImage);
