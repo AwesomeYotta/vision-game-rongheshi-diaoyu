@@ -90,7 +90,7 @@ export default class GameScene extends ViewBase {
     private getRandomNumber() {
         this.numberList = [];
         let n;
-        for(let i = 0; i < this.fishNumber; i++) {
+        for(let i = 0; i < this.fishData.length; i++) {
             do {
                 n = this.getRandomInt(10, 99);
             } while(this.numberList.includes(n));
