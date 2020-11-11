@@ -128,6 +128,10 @@ export class GameConfig extends Singleton {
     public get subScore(): number {
         return this.configTable.subScore.value;
     }
+
+    public get rounds(): number {
+        return this.configTable.rounds.value;
+    }
 }
 
 (<any>window).GameConfig = GameConfig

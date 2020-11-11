@@ -32,6 +32,9 @@ export default class GameScene extends ViewBase {
     private fishData: Array<any>;
     private numberList: Array<number>;
     private numberIndex: number;
+    private currentRounds: number;
+    private fishWidth: number;
+    private fishHeight: number;
     private ripple: Ripple;
     constructor() {
         super();
@@ -46,24 +49,13 @@ export default class GameScene extends ViewBase {
         this.fishNumber = GameConfig.i.fishNumber;
         this.fishScale = GameConfig.i.fishScale * getDPICoeff();
         let fish = new createjs.Bitmap(res.getResult(ResId.fishRedPng));
-        let fishWidth = fish.image.width * this.fishScale;
-        let fishHeight = fish.image.height * this.fishScale;
-        this.fishData = getRandomRect(fishWidth + FISH_SPACE, fishHeight + FISH_SPACE, 
-            this.containerWidth - HELPBTN_WIDTH, this.containerHeight - (HEADER_HEIGHT + FOOTER_HEIGHT), this.fishNumber);
-        if(this.fishNumber !== this.fishData.length) {
-            let errObj:ErrorObj = {
-                type: ErrorType.GAME_WARNING,
-                message: '鱼的个数生成数量未达到需求',
-                content: '鱼的缩放比过大或数量过多',
-            }
-            messager.sendError(errObj);
-        }
-        this.numberIndex = 0;
+        this.fishWidth = fish.image.width * this.fishScale;
+        this.fishHeight = fish.image.height * this.fishScale;
+
         this.addCrosshair();
-        this.getRandomNumber();
-        this.addFishs();
-        this.addNumber();
-        
+        this.currentRounds = 1;
+        this.start();
+
         EventCenter.i.addListener(StageEvent.stagemousemove, this.addMouseCommand, this);
         if(GameConfig.i.playMode === PlayMode.playback) {
             this.ripple = new Ripple();
@@ -83,22 +75,38 @@ export default class GameScene extends ViewBase {
         this.addChild(this.crosshair);
     }
 
-    private getRandomInt(min: number, max: number) {
-        return Math.floor(Math.random() * (max - min)) + min;
+    private start() {
+        this.numberIndex = 0;
+        this.getFishPos();
+        this.getFishNumber();
+        this.addFishs();
+        this.addNumberText();
     }
 
-    private getRandomNumber() {
-        this.numberList = [];
-        let n;
-        for(let i = 0; i < this.fishData.length; i++) {
-            do {
-                n = this.getRandomInt(10, 99);
-            } while(this.numberList.includes(n));
-            this.numberList.push(n);
+    private getFishPos() {
+        this.fishData = getRandomRect(this.fishWidth + FISH_SPACE, this.fishHeight + FISH_SPACE, 
+            this.containerWidth - HELPBTN_WIDTH, this.containerHeight - (HEADER_HEIGHT + FOOTER_HEIGHT), this.fishNumber);
+        if(this.fishNumber !== this.fishData.length) {
+            let errObj:ErrorObj = {
+                type: ErrorType.GAME_WARNING,
+                message: '鱼的个数生成数量未达到需求',
+                content: '鱼的缩放比过大或数量过多',
+            }
+            messager.sendError(errObj);
         }
     }
-    // 
-    private addNumber() {
+
+    private getFishNumber() {
+        this.numberList = [];
+        for(let i = 1; i <= this.fishData.length; i++) {
+            this.numberList.push(i);
+        }
+        this.numberList.sort(() => {
+            return Math.random() - 0.5;
+        })
+    }
+    
+    private addNumberText() {
         this.currentNumber = new CompositeText({
             number: this.numberList[this.numberIndex],
             scale: this.fishScale
@@ -161,11 +169,16 @@ export default class GameScene extends ViewBase {
             this.numberIndex++;
             if(this.numberIndex === this.numberList.length) {
                 this.currentNumber.updateNumber('');
-                EventCenter.i.emit(GameEvent.completed);
-                CommandManager.i.pushCommandInfo({
-                    cmdName: CommandName.ReplaceSceneCmd,
-                    isUpgrade: true
-                })
+                if(this.currentRounds < GameConfig.i.rounds) {
+                    this.currentRounds++;
+                    this.start();
+                } else {
+                    EventCenter.i.emit(GameEvent.completed);
+                    CommandManager.i.pushCommandInfo({
+                        cmdName: CommandName.ReplaceSceneCmd,
+                        isUpgrade: true
+                    })
+                }
             } else {
                 this.currentNumber.updateNumber(this.numberList[this.numberIndex] + '');
             }
