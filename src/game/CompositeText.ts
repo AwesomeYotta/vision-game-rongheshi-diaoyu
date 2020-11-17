@@ -9,10 +9,12 @@ export default class CompositeText extends createjs.Container {
         let offset = GameConfig.i.offset * getDPICoeff();
         let delay = GameConfig.i.moveDelay * 1000 / 2;
         let sign = GameConfig.i.fusionTrainingType === 'SEPARATE' ? 1 : -1;
-        this.redText = new createjs.Text(config.number+'', `${90 * config.scale}px Arial`, '#FF0000');
-        this.blueText = new createjs.Text(config.number+'', `${90 * config.scale}px Arial`, '#0040FF');
+        this.redText = new createjs.Text(config.number+'', '120px Arial', '#FF0000');
+        this.blueText = new createjs.Text(config.number+'', '120px Arial', '#0040FF');
         this.redText.compositeOperation = 'darken';
         this.blueText.compositeOperation = 'darken';
+        this.redText.scaleX = this.redText.scaleY = config.scale;
+        this.blueText.scaleX = this.blueText.scaleY = config.scale;
         this.addChild(this.redText, this.blueText);
 
         this.moveTween({
