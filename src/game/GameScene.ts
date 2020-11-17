@@ -67,7 +67,7 @@ export default class GameScene extends ViewBase {
         this.crosshair = new CompositeImage({
             redImage: res.getResult(ResId.crossRedPng),
             blueImage: res.getResult(ResId.crossBluePng),
-            scale: this.fishScale
+            scale: this.fishScale * 1.4
         });
         this.crosshair.regX = CROSSHAIR_SIZE * this.fishScale / 2;
         this.crosshair.regY = CROSSHAIR_SIZE * this.fishScale / 2;
