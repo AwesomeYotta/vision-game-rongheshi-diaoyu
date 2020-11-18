@@ -160,7 +160,7 @@ export default class GameScene extends ViewBase {
     public handleClickCmd(data:any) {
         let { name, x, y } = data;
         if(GameConfig.i.playMode === PlayMode.playback) {
-            this.ripple.set({x, y});
+            this.ripple.set({x: x - this.x, y});
             this.ripple.showRipple();
         }
         if(Number(name) === this.numberList[this.numberIndex]) {
