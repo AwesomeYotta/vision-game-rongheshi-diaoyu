@@ -15,6 +15,7 @@ import UserData from 'common/UserData';
 import messager, { ErrorObj, ErrorType } from '@/util/messager';
 import { Ripple } from './Ripple';
 import { getDPICoeff } from '@/util/getDPICoeff';
+import { setFrameout } from '@/util/frameUtil';
 const CROSSHAIR_SIZE = 46;
 const FISH_SPACE = 10;
 const HELPBTN_WIDTH = 40;
@@ -159,6 +160,7 @@ export default class GameScene extends ViewBase {
 
     public handleClickCmd(data:any) {
         let { name, x, y } = data;
+        this.crosshair.set({x: x - this.x, y});
         if(GameConfig.i.playMode === PlayMode.playback) {
             this.ripple.set({x: x - this.x, y});
             this.ripple.showRipple();
@@ -173,11 +175,13 @@ export default class GameScene extends ViewBase {
                     this.currentRounds++;
                     this.start();
                 } else {
-                    EventCenter.i.emit(GameEvent.completed);
-                    CommandManager.i.pushCommandInfo({
-                        cmdName: CommandName.ReplaceSceneCmd,
-                        isUpgrade: true
-                    })
+                    setFrameout(() => {
+                        EventCenter.i.emit(GameEvent.completed);
+                        CommandManager.i.pushCommandInfo({
+                            cmdName: CommandName.ReplaceSceneCmd,
+                            isUpgrade: true
+                        })
+                    }, GameConfig.i.toFrame(500))
                 }
             } else {
                 this.currentNumber.updateNumber(this.numberList[this.numberIndex] + '');
