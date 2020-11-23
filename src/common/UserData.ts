@@ -65,9 +65,10 @@ export default class UserData {
     }
 
     public set chance(value:number) {
-        this._chance = value;
-        EventCenter.i.emit(GameEvent.chanceChange, this.chance);
-        if(value === 0) {
+        if(value > 0) {
+            this._chance = value;
+            EventCenter.i.emit(GameEvent.chanceChange, this.chance);
+        } else {
             EventCenter.i.emit(GameEvent.fail);
             CommandManager.i.pushCommandInfo({
                 cmdName: CommandName.ReplaceSceneCmd,
