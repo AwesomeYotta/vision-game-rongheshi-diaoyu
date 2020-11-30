@@ -50,6 +50,7 @@ export class GameConfig extends Singleton {
     //----以下由场景切换命令赋值---------------
     public levelConfig: LevelConfig;
     public isPad:boolean;
+    public dpiCoeff:number;
     public async initAsync() {
         let result;
         if (this.playMode == PlayMode.userPlay) {

@@ -14,7 +14,6 @@ import CompositeText from './CompositeText';
 import UserData from 'common/UserData';
 import messager, { ErrorObj, ErrorType } from '@/util/messager';
 import { Ripple } from './Ripple';
-import { getDPICoeff } from '@/util/getDPICoeff';
 import { setFrameout } from '@/util/frameUtil';
 const CROSSHAIR_SIZE = 46;
 const FISH_SPACE = 10;
@@ -48,7 +47,7 @@ export default class GameScene extends ViewBase {
         this.x = (canvas.width - canvas.height) / 2;
         UserData.i.chance = GameConfig.i.chance;
         this.fishNumber = GameConfig.i.fishNumber;
-        this.fishScale = GameConfig.i.fishScale * getDPICoeff();
+        this.fishScale = GameConfig.i.fishScale * GameConfig.i.dpiCoeff;
         let fish = new createjs.Bitmap(res.getResult(ResId.fishRedPng));
         this.fishWidth = fish.image.width * this.fishScale;
         this.fishHeight = fish.image.height * this.fishScale;
