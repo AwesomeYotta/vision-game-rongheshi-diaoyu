@@ -12,6 +12,7 @@ import { CommandManager } from "common/CommandManager";
 import $http from 'http/HttpRequest'
 import { gameGlobal } from "../../main";
 import isPad from "@/util/isPad";
+import { getDPICoeff } from "@/util/getDPICoeff";
 /**切换场景命令 */
 export class ReplaceSceneCmd extends Command {
     /**游戏场景是否是第一次进入舞台 */
@@ -29,6 +30,7 @@ export class ReplaceSceneCmd extends Command {
     /**下一关的配置 */
     private levelConfig: any;
     private isPad:boolean;
+    private dpiCoeff: number;
     constructor() {
         super();
     }
@@ -82,6 +84,7 @@ export class ReplaceSceneCmd extends Command {
         this.levelConfig = await $http.getLevelConfig(GameConfig.i.gameId, UserData.i.level);
         GameConfig.i.levelConfig = this.levelConfig;
         GameConfig.i.isPad = this.isPad = !!isPad;
+        GameConfig.i.dpiCoeff = this.dpiCoeff = getDPICoeff() || 1;
         CommandManager.i.save();//保存命令
     }
     /**玩家模式的切换 */
@@ -96,6 +99,7 @@ export class ReplaceSceneCmd extends Command {
         LH.setRandomCalled(this.randomCalled, GameConfig.i.randomSeed);
         GameConfig.i.levelConfig = this.levelConfig;
         GameConfig.i.isPad = this.isPad;
+        GameConfig.i.dpiCoeff = this.dpiCoeff;
         Object.assign(UserData.i, this.userData);//回放时，取之前保存的信息
         UserData.i.emitChange();
         await UIManager.i.replaceScene(UIName.GameScene, null, this.levelConfig);
