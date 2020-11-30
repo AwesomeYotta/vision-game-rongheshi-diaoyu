@@ -53,7 +53,6 @@ export default class GameScene extends ViewBase {
         this.fishWidth = fish.image.width * this.fishScale;
         this.fishHeight = fish.image.height * this.fishScale;
 
-        this.addCrosshair();
         this.currentRounds = 1;
         this.start();
 
@@ -77,7 +76,16 @@ export default class GameScene extends ViewBase {
     }
 
     private start() {
+        if(this.crosshair) {
+            this.removeChild(this.crosshair);
+            this.crosshair = null;
+        }
+        if(this.currentNumber) {
+            this.removeChild(this.currentNumber);
+            this.currentNumber = null;
+        }
         this.numberIndex = 0;
+        this.addCrosshair();
         this.getFishPos();
         this.getFishNumber();
         this.addFishs();
@@ -152,10 +160,12 @@ export default class GameScene extends ViewBase {
     // 
     public handleMoveCommand(cmd: MouseMove) {
         let pt = cmd.pt;
-        this.crosshair.set({
-            x: pt.x,
-            y: pt.y
-        })
+        if(this.crosshair) {
+            this.crosshair.set({
+                x: pt.x,
+                y: pt.y
+            })
+        }
     }
 
     public handleClickCmd(data:any) {
@@ -170,7 +180,6 @@ export default class GameScene extends ViewBase {
             this.removeChild(this.getChildByName(name));
             this.numberIndex++;
             if(this.numberIndex === this.numberList.length) {
-                this.currentNumber.updateNumber('');
                 if(this.currentRounds < GameConfig.i.rounds) {
                     this.currentRounds++;
                     this.start();
