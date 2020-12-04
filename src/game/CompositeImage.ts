@@ -37,13 +37,13 @@ export default class CompositeImage extends createjs.Container {
         if(config.number) {
             this.numberTextX = this.redImg.image.width * config.scale / 2 + 20 * config.scale;
             this.numberTextY = this.redImg.image.height * config.scale / 2 + 10 * config.scale;
-            this.redText = new createjs.Text(config.number+'', '60px Arial', '#FF0000');
+            this.redText = new createjs.Text(config.number+'', '100px Arial', '#FF0000');
             this.redText.textAlign = 'center';
             this.redText.textBaseline = 'middle';
             this.redText.x = this.numberTextX;
             this.redText.y = this.numberTextY;
 
-            this.blueText = new createjs.Text(config.number+'', '60px Arial', '#0040FF');
+            this.blueText = new createjs.Text(config.number+'', '100px Arial', '#0040FF');
             this.blueText.textAlign = 'center';
             this.blueText.textBaseline = 'middle';
             this.blueText.x = this.numberTextX;
