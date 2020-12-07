@@ -47,6 +47,7 @@ export class GameConfig extends Singleton {
     public medalInfo: MedalInfo;
     public trainingEyeType:string;
     public fusionTrainingType: string;
+    public prePlaybackId: string;
     //----以下由场景切换命令赋值---------------
     public levelConfig: LevelConfig;
     public isPad:boolean;
@@ -69,6 +70,7 @@ export class GameConfig extends Singleton {
         this.medalInfo = result.medalInfo;
         this.trainingEyeType = result.trainingEyeType;
         this.fusionTrainingType = result.fusionTrainingType;
+        this.prePlaybackId = result.playbackId;
         EventCenter.i.emit(GameEvent.gameConfigInited);
     }
 

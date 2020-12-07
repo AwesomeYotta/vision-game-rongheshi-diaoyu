@@ -233,8 +233,9 @@ class GameGlobal {
 
     private sendGameExitType() {
         let data = {
+            type: this.gameExitType,
             trainingId: GameConfig.i.trainingId,
-            type: this.gameExitType
+            playbackId: GameConfig.i.prePlaybackId
         }
         $http.postGameExitType(data).catch(() => {
             return false;

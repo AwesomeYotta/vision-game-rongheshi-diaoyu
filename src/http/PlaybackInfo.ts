@@ -26,7 +26,6 @@ export interface PlayBackInfoPacket {
 }
 
 const saveKey = 'PlaybackInfo'
-let playbackId: string = null;
 let part = 1;
 export async function savePlaybackInfo(cmds: Array<Command>) {
     console.log('post playbackInfo called-------------')
@@ -39,22 +38,16 @@ export async function savePlaybackInfo(cmds: Array<Command>) {
         part: part,
         content: data,
         gameId: GameConfig.i.gameId,
-        playbackId: playbackId,
+        playbackId: GameConfig.i.prePlaybackId,
         state: (gameGlobal.getState() == GameState.end) ? PlayBackInfoPacketState.RECORDED : PlayBackInfoPacketState.RECORDING
     }
     if (GameConfig.i.trainingId) {
         pucket.trainingId = GameConfig.i.trainingId
     }
-    let res = await $http.postPlaybackInfoPacket(pucket).catch(() => {
+    part++;
+    await $http.postPlaybackInfoPacket(pucket).catch(() => {
         return false;
     });
-    if (res) {
-        playbackId = (<any>res).data;
-        part++;
-        return true;
-    } else {
-        return false;
-    }
 }
 
 export async function getPlaybackInfo(): Promise<Array<CommandInfo>> {
