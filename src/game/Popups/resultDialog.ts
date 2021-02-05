@@ -18,6 +18,7 @@ export function addResultDialog() {
 
     EventCenter.i.addListener(GameEvent.beforeReplaceScene, (isUpgrade: boolean) => {
         pushResult(isUpgrade ? LevelState.success : LevelState.fail);
+        UserData.i.score = 0;
         resultDialog.win = isUpgrade;
         resultDialog.thisLevelSummary = ResultMgr.i.getThisLevelSummary();
         resultDialog.summaryList = ResultMgr.i.getSummaryList();
