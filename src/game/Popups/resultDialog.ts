@@ -5,6 +5,7 @@ import { gameGlobal, GameExitType } from '../../main';
 import { GameConfig } from '../../common/GameConfig';
 import { ResultMgr } from '@/util/ResultMgr';
 import { pushResult, LevelState } from '../../GameUtil';
+import UserData from 'common/UserData';
 let resultDialog: ResultDialog
 export function addResultDialog() {
     ResultMgr.i.init({
